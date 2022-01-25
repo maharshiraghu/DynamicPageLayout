@@ -1,0 +1,23 @@
+.slds-form-element__static{
+	border-bottom: 1px solid #ccc;
+}
+.slds-form-element__control{
+	padding-left: 28% !important;
+}
+.save_button{
+    margin-left: 10px;
+}
+.custom_accordion_section .slds-accordion__summary{
+	background: #f3f2f2 !important;
+}
+.slds-section__title-action {
+    display: flex;
+    align-items: center;
+    background: var(--lwc-colorBackground,rgb(243, 242, 242));
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    color: currentColor;
+    font-size: inherit;
+    padding: 0 var(--lwc-spacingXSmall,0.5rem);
+}

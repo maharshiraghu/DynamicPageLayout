@@ -1,0 +1,98 @@
+<template>
+    <!--
+    <template if:false={psmRecordFound}>
+        <div style="text-align:right;">
+            <lightning-button label="New PSM Engagement" title="Non-primary action" onclick={createNewPSMEngagement} class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </template>
+    <template if:true={psmRecordFound}>
+        <div style="text-align:right;">
+            <lightning-button label="Create Contact" title="Non-primary action" onclick={createNewContact} class="slds-m-left_x-small"></lightning-button>
+        </div>
+        <lightning-record-form
+            record-id={psmRecordId}
+            object-api-name="PSM_Engagements__c"
+            layout-type="Full"
+            columns="2"
+            mode="view">
+        </lightning-record-form> 
+    </template>
+-->
+    <template if:true={isLoaded}>
+    <template  if:true={isShowModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <c-populate-contact-info record-id={psmRecordId} onclosemoadal={closeMoadal}></c-populate-contact-info>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:false={isShowNew}>
+        <div style="text-align:right;padding-right:15px;">
+            <lightning-button variant="brand" label="Edit" title="Edit" onclick={handleEditClick}></lightning-button>
+            <lightning-button style="margin-left: 10px;" variant="brand" label="Engagement Contact	" title="Engagement Contact" onclick={handleCreateEngagementContact}></lightning-button>
+        </div>
+        <lightning-record-view-form
+            object-api-name="PSM_Engagements__c"
+            record-id={psmRecordId}>
+            <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>  
+                <template for:each={pageLayoutSections} for:item="pageLayoutSection">
+                    <lightning-accordion-section class="custom_accordion_section" name={pageLayoutSection.sName} label={pageLayoutSection.sLabel}  key={pageLayoutSection.sLabel}>
+                        <div class="slds-grid">
+                            <template for:each={pageLayoutSection.lstColumns} for:item="column">
+                                <div class="slds-col slds-size_1-of-2" key={column.iColumnIndex}>
+                                    <template for:each={column.lstFields} for:item="field">
+                                        <div key={field.sFieldName} style={field.sFieldstyle}> 
+                                            <lightning-output-field field-name={field.sFieldName}></lightning-output-field>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+        </lightning-record-view-form> 
+    </template>
+    <template if:true={isShowNew}>
+        <lightning-record-edit-form
+            object-api-name="PSM_Engagements__c"
+            onsuccess={handleSuccess}
+            record-id={psmRecordId}>
+            <lightning-messages></lightning-messages>
+            <lightning-accordion active-section-name={activeSections} allow-multiple-sections-open>  
+                <template for:each={pageLayoutSections} for:item="pageLayoutSection">
+                    <lightning-accordion-section class="custom_accordion_section" name={pageLayoutSection.sName} label={pageLayoutSection.sLabel}  key={pageLayoutSection.sLabel}>
+                        <div class="slds-grid">
+                            <template for:each={pageLayoutSection.lstColumns} for:item="column">
+                                <div class="slds-col slds-size_1-of-2" key={column.iColumnIndex}>
+                                    <template for:each={column.lstFields} for:item="field">
+                                        <div key={field.sFieldName}>
+                                            <template if:true={field.bIsReadOnly}>
+                                                <lightning-output-field field-name={field.sFieldName}></lightning-output-field>
+                                            </template>
+                                            <template if:false={field.bIsReadOnly}>
+                                                <template if:true={field.bIsShowDefaultValue}>
+                                                    <lightning-input-field  field-name={field.sFieldName} value={field.sFieldValue} required={field.bIsRequired}></lightning-input-field>
+                                                </template>
+                                                <template if:false={field.bIsShowDefaultValue}>
+                                                    <lightning-input-field  field-name={field.sFieldName} required={field.bIsRequired}></lightning-input-field>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+            <footer class="slds-modal__footer">
+            <lightning-button variant="neutral" label="Cancel" title="Cancel" onclick={handleCancel}></lightning-button>
+            <lightning-button variant="brand" type="submit" class="save_button" label="Save" title="Save" onclick={handleSave}></lightning-button>
+            </footer>
+        </lightning-record-edit-form> 
+    </template>
+    </template>
+
+</template>
